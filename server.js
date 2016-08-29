@@ -8,15 +8,29 @@
 var express = require('express')
     ,app = express()
     ,bodyParser = require('body-parser')
-    ,port = process.env.PORT || 8080;
+    ,request = require('request')
+    ,port = process.env.PORT || 8081;
 
 /**
  * middleware*/
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
-app.use('/',function(req,res){
-   console.log(req.url);
-    res.sendFile(__dirname+ '/index.html');
+// app.use('/',function(req,res){
+//    console.log(req.url);
+//     res.sendFile(__dirname+ '/index.html');
+// });
+
+app.get('/',function(req,res){
+    console.log('inside demo');
+    request.get('https://api.github.com/repos/chandankrishnan/mergeDemo/commits',{headers:{'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0'}},function(err,data,body){
+        res.json({"data":JSON.parse(data.body)});
+        var a = JSON.parse(data.body);
+        console.log(a[0].commit);
+        console.log(a.length);
+
+        // console.log("data"+JSON.stringify(data.body));
+
+    });
 });
 
 /**
