@@ -21,7 +21,7 @@ app.use(express.static(__dirname + '/public'));
 // });
 
 /**
- * returns the commits of github repository of respective user
+ * get the commits of github repository of respective user
  * */
 app.get('/',function(req,res){
     console.log('inside demo');
